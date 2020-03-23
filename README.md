@@ -20,6 +20,8 @@ Indicators are downloaded and read into memory.  Content signatures are stored l
 
 Zeek 3.0 or higher.
 
+zkg zeek package manager.
+
 Curl is required for ActiveHTTP requests.
 
 
@@ -35,85 +37,106 @@ The CanCyber Zeek module outputs hits to the console, logs to file, and reports 
 
 ## Module contents:
 
-cancyber_sigs.zeek: Module zeek-script source.
 
-cancyber_sigs.sig: Content based signatures.
+scripts/cancyber_sigs.zeek: Module zeek-script source.
 
-cancyber_expire.zeek: Expiration code, derived from Jan Grashoefer
+scripts/cancyber_expire.zeek: Expiration code, derived from Jan Grashoefer
+
+signatures/cancyber_sigs.sig: Content based signatures.
 
 __load__.zeek: Module designator.
 
-config.zeek: Your API key.
+config.zeek: Your API key goes in here.
+
+config.zeek.orig: Clean copy of config.zeek.
+
 
 zkg.meta: Zeek package manager identifier.
 
-update.py: Python script to download signatures (used in a cluster setup.)
+update.py: Python script to update signatures.
 
 README.md: This read me file.
 
 cluster.txt: zeekctl cluster setup for multiple servers.
 
-zeek_install.txt: Instructions for installing Zeek.
+zeek_install.md: Instructions for installing Zeek.
+
+zeekctl.md: Zeekctl setup.
 
 
-## Using CanCyber Signatures
+
+
+
+
+## Package Install
+
+1. Install Zeek
+
+  - Mac: brew install zeek
+
+  - Ubuntu: apt-get install zeek
+
+  - Centos: yum install zeek
+
+  Configure zeek interface setting: /usr/local/etc/node.cfg
+
+```
+[zeek]
+type=standalone
+host=localhost
+interface=en0
+```
+
+2. Install zpk (Zeek package manager):
+
+Requirements: Python 3 and pip.
+
+pip install zkg
+
+3. Setup zkg:
+
+  - zkg autoconfig
+
+  - Edit site/local.zeek (example location /usr/local/Cellar/zeek/3.1.1/share/zeek/site/local.zeek)
+
+    ```@load packages```
+
+4. Install cancyber_zeek package:
+
+  - zkg unbundle cancyber_zeek.bundle, or:
+
+  - zkg install https://github.com/cancyber/cancyber_zeek (then edit the packages/cancyber_zeek/config.zeek to have your cancyber tool api key [not misp key]).
+
+5. zeekctl deployment
+
+  - zeekctl deploy (typical errors here would be missing config.zeek).
+
+6. [Test indicators](https://cancyber.org/testing.php)
+
+```nslookup malware-c2.com```
+
+7. Review [CanCyber Dashboard](https://dashboard.cancyber.org/)
+
+
+## Command line alternative:
 
 If running zeek directly, reference the CanCyber folder with the signature download scripts:
 
-sudo zeek -i en1 [FULL PATH]/CanCyber "Site::local_nets += { 10.0.0.0/8, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24 }"
-
-If running using the zeekctl interface, edit the local.zeek configuration file in /usr/local/zeek/share/zeek/site and, at the bottom, add the line:
-
-@load [FULL PATH]/CanCyber
-
-then run the zeekctl deploy sequence to have the scripts installed.
-
-
-## Zeek Tips
-
-When running locally (ie running zeek on the same system you are generating traffic from), you may need to use the -C option to ignore checksum validation.
-
-
-### Disable local logging
-
-Add "Log::default_writer=Log::WRITER_NONE" to the command.
-
-
-## Zeek Config
-
-NOTE: Some rules make use of the global 'Site:local_nets' the variable (which defines the local networks). Its value is defined in: /usr/local/zeek/etc/networks.cfg when using zeekctl or on the command line for other uses.
+sudo zeek -i en0 cancyber_zeek
 
 
 
-### Maintenance
+## Zeekctl Maintenance
 
 For long term monitoring, if not disabling logs as above, use zeekctl to launch, rotate logs, and restart after crashes.
 
 
-## Zeek install
-
-Mac: brew install zeek
-
-Ubuntu: apt-get install zeek
-
-Centos: yum install zeek
-
-
-## zeekctl setup
-
-edit zeekctl local config: /usr/local/share/zeek/site/local.zeek:
-
-add: @load [FULL PATH]/CanCyber
-
-check eth interface setting: /usr/local/etc/node.cfg
-
-run: zeekctl deploy
-
-
-## zeekctl cron jobs
+### zeekctl cron jobs
 
 */5 * * * * /usr/local/bin/zeekctl cron
 
 1 */12 * * * /usr/local/bin/zeekctl restart
 
-cronjob to restart zeek to reimport signatures: 1 */4 * * * /usr/local/bin/zeekctl restart
+1 1 1 * * /usr/local/bin/zkg refresh
+
+
