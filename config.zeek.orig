@@ -1,4 +1,4 @@
-module CanCyber;
+module cancyber_zeek;
 
 export { 
 

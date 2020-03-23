@@ -64,7 +64,7 @@ hook extend_match(info: Info, s: Seen, items: set[Item])
 
 		# caps on low confidence network activity - dns requests and scans
 
-		if (CanCyber::CCSOURCE != "exp" && CanCyber::CCSOURCE != "dev") {
+		if (cancyber_zeek::CCSOURCE != "exp" && cancyber_zeek::CCSOURCE != "dev") {
 			if (s$indicator_type == Intel::ADDR && di == INBOUND && services == 0) {
 				item$meta$cancyber_scan_hits += 1;
 			}
@@ -77,15 +77,15 @@ hook extend_match(info: Info, s: Seen, items: set[Item])
 			insert(item);
 			#print fmt("hits for item all:%d dns:%d scan:%d services:%d", item$meta$cancyber_hits, item$meta$cancyber_dns_hits, item$meta$cancyber_scan_hits, services);
 
-			if (item$meta$cancyber_hits > CanCyber::MAX_HITS) {
+			if (item$meta$cancyber_hits > cancyber_zeek::MAX_HITS) {
 				print fmt("Suppressing Excessive hits for Intel Item That Hit: %s %d times", item$indicator, item$meta$cancyber_hits);
 				next;
 			}
-			if (item$meta$cancyber_dns_hits > CanCyber::MAX_DNS_HITS) {
+			if (item$meta$cancyber_dns_hits > cancyber_zeek::MAX_DNS_HITS) {
 				print fmt("Suppressing Excessive hits for Intel Item That Hit In DNS Request: %s %d times", item$indicator, item$meta$cancyber_dns_hits);
 				next;
 			}
-			if (item$meta$cancyber_scan_hits > CanCyber::MAX_SCAN_HITS) {
+			if (item$meta$cancyber_scan_hits > cancyber_zeek::MAX_SCAN_HITS) {
 				print fmt("Suppressing Excessive hits for Intel Item That Hit Inbound Scan: %s %d times", item$indicator, item$meta$cancyber_scan_hits);
 				next;
 			}
@@ -198,7 +198,7 @@ hook extend_match(info: Info, s: Seen, items: set[Item])
 			if (ssl?$server_name) {
 				hit += fmt("|sni:%s",ssl$server_name);
 				#skip reporting when bad domain is co-located in another cert
-				#if (CanCyber::CCSOURCE != "exp" && CanCyber::CCSOURCE != "dev" && s$indicator_type == Intel::DOMAIN && s$where == X509::IN_CERT && ssl$server_name != item$indicator) {
+				#if (cancyber_zeek::CCSOURCE != "exp" && cancyber_zeek::CCSOURCE != "dev" && s$indicator_type == Intel::DOMAIN && s$where == X509::IN_CERT && ssl$server_name != item$indicator) {
 				#	next;
 				#}
 			}
@@ -231,7 +231,7 @@ hook extend_match(info: Info, s: Seen, items: set[Item])
 		}
 
 
-		CanCyber::register_hit(hit);
+		cancyber_zeek::register_hit(hit);
 		#print hit;
 
 	}

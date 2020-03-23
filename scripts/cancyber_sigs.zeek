@@ -1,6 +1,6 @@
 # CanCyber.org Zeek Module v2.1.01 2020 03 22
 
-module CanCyber;
+module cancyber_zeek;
 
 
 @load ../config
@@ -24,7 +24,7 @@ export {
 	global MAX_SCAN_HITS: int = 2;
 
 
-	global base_signature_url = fmt("https://tool.cancyber.org/get/indicators?toolkey=%s&zeekversion=%s&version=%s&query=", CanCyber::APIKEY, Version::number, NST_VERSION);
+	global base_signature_url = fmt("https://tool.cancyber.org/get/indicators?toolkey=%s&zeekversion=%s&version=%s&query=", cancyber_zeek::APIKEY, Version::number, NST_VERSION);
 
 	global signature_refresh_period = 6hr &redef;
 
@@ -307,7 +307,7 @@ function update_cancyber_source(fname: string, querytag: string) {
 
 
 function register_hit(hitvalue: string) {
-	local upload_hit_url = fmt("https://tool.cancyber.org/put/sightings?epstkey=%s&platform=normal&hcode=ZEK", CanCyber::APIKEY);
+	local upload_hit_url = fmt("https://tool.cancyber.org/put/sightings?epstkey=%s&platform=normal&hcode=ZEK", cancyber_zeek::APIKEY);
 
    	local post_data: table[string] of string;
 	post_data["platform"] = "normal";
