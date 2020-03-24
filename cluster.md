@@ -1,13 +1,25 @@
-zeek# Zeek Cluster Setup for CanCyber
+# Zeek Cluster Setup for CanCyber
 
-The CanCyber Zeek module can be run in a cluster with a central manager and many remote worker's each monitoring their own local interface.  Root ssh access is required and Zeek seems to require the same type of OS, dependant libraries and Zeek version.
+
+The CanCyber Zeek module can be run in a cluster with a central manager and many workers
+
+A worker can be a separate server with it's own capture interface, or a group of workers handling a large capture (splitting up traffic requires additional software such as PF_RING)
+
 
 The CanCyber module will leverage the Zeek Intelligence Framework's transparent support for inter-cluster communications to centrally download indicators on the manager for use by all the worker nodes.
 
 
-## Setup ssh keys for root logins:
+## Multiple Workers on one Server
 
-### On manager:
+- [Zeek Appliance Build Guide](https://github.com/cancyber/documents/pdfs/Zeek-IDS-Appliance-Build-Guide-v1.0.1.pdf)
+
+
+
+## Multiple Servers with a Central Manager
+
+### Setup Root SSH Keys on Servers
+
+#### On manager:
 
 zeek-manager# ssh-keygen 
  Generating public/private rsa key pair. 
@@ -21,12 +33,12 @@ Copy public key from id_rsa.pub to the workers /root/.ssh/authorized_keys
 
 ssh manually into each node to add to knownhosts entry.
 
-### Allow root to login on workers
+#### Allow root to login on workers
 
 grep Root /etc/ssh/sshd_config 
  PermitRootLogin yes
 
-### Restart ssh on workers
+#### Restart ssh on workers
 
 /etc/init.d/ssh restart
 
@@ -34,21 +46,12 @@ or
 
 service sshd restart
 
-## Install CanCyber module on Manager
+### Install CanCyber module on Manager
 
-Extract zip to: /usr/local/zeek/share/zeek/site/CanCyber  
-
-Edit local.zeek: nano -w /usr/local/zeek/share/zeek/site/local.zeek: add:
-
-@load CanCyber
+Follow the instructions in the (readme)[README.md]
 
 
-Test run:
-
-/usr/local/zeek/bin/zeek -i eth0 -C 
-
-
-## Setup your cluster:
+### Setup your cluster:
 
 Note: to use a single standalone server and still use zeekctl, leave this file unchanged.
 
@@ -84,7 +87,7 @@ type=worker
 host=10.100.1.69
 interface=eth0
 
-## Deploy and Run CanCyber on workers:
+### Deploy and Run CanCyber on workers:
 
 /usr/local/zeek/bin/zeekctl deploy
 
@@ -100,14 +103,15 @@ Restart / read latest signatures:
 
 /usr/local/zeek/bin/zeekctl restart
 
-## Logs viewing:
+### Viewing logs:
 
 /usr/local/zeek/logs or /usr/local/zeek/spool
 
-## Cron
+
+### Cron
 
 To keep everything running and also force the reimport of content signatures:
 
 */5 * * * * /usr/local/zeek/bin/zeekctl cron
-1 22 * * * /usr/bin/python /usr/local/zeek/share/zeek/site/CanCyber/update.py && /usr/local/zeek/bin/zeekctl deploy  > /dev/null 2>&1
+1 22 * * * /usr/bin/python /usr/local/zeek/share/zeek/site/canyber_zeek/update.py && /usr/local/zeek/bin/zeekctl deploy  > /dev/null 2>&1
 
