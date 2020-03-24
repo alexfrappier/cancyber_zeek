@@ -2,4 +2,4 @@
 script_dir = ./
 description = MISP+Zeek. CanCyber is a Zeek Module to import MISP indicators to the Intel Framework automatically and report sightings to the CanCyber portal.
 tags = intel, MISP, sightings, signatures
-version = 2.01
+version = 2.01.001
