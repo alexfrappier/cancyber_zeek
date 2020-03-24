@@ -1,4 +1,4 @@
-# CanCyber.org Zeek Module v2.1.01 2020 03 22
+# CanCyber.org Zeek Module v2.1.001 2020 03 22
 ##! This script adds per item expiration for CanCyber Intel feeds. This 
 # version does not reset the base time when hits are detected. It is based
 # on the intel-extensions package that is Copyright (c) 2016 by Jan Grashoefer
