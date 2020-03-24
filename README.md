@@ -102,9 +102,9 @@ Requirements: [Python 3](https://realpython.com/installing-python/) and [pip](ht
 
     `@load packages`
 
-4. Install cancyber_zeek package:
+4. Install cancyber_zeek.bundle package:
 
-  From a preconfigured (API key included) install bundle [download here](https://endpoint.cancyber.org/tool.php):
+  From a preconfigured (API key included) install cancyber_zeek.bundle [download here](https://endpoint.cancyber.org/tool.php):
   
   - `zkg unbundle cancyber_zeek.bundle`
 
@@ -116,6 +116,8 @@ Proceed? [Y/n] `Y`
 Loaded "https://github.com/cancyber/cancyber_zeek"
 Unbundling complete. 
 ```
+
+The cancyber_zeek.bundle is tar.gz compressed file pre-loaded with your API key and the most recent CanCyber content signatures.
 
   **Or:**
 
