@@ -115,7 +115,18 @@ Loaded "https://github.com/cancyber/cancyber_zeek"
 Unbundling complete. 
 ```
 
-  - `zkg install https://github.com/cancyber/cancyber_zeek` (then edit the *packages/cancyber_zeek/config.zeek* to have your cancyber tool api key [not misp key]).
+  - `zkg install https://github.com/cancyber/cancyber_zeek` (then edit the *packages/cancyber_zeek/config.zeek* to have your cancyber tool api key [not misp key]). Copy a new config `cp config.zeek.orig config.zeek`.
+  
+```
+module cancyber_zeek;
+
+export { 
+
+	global APIKEY = "**##APIKEY##**";
+
+	global CCSOURCE = "zeek"; # available options zeek, isp, dev, exp
+}
+```
 
 5. zeekctl deployment
 
