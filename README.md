@@ -242,3 +242,22 @@ Proceed? [Y/n] `Y`
 Upgraded "https://github.com/cancyber/cancyber_zeek" (master)
 ```
 
+## Uninstall
+
+- Stop Zeek
+
+  `zeekctl stop`
+  
+- Remove package
+
+  `zkg remove cancyber_zeek`
+  
+```
+The following packages will be REMOVED:
+  https://github.com/cancyber/cancyber_zeek
+
+Proceed? [Y/n] **Y**
+Removed "https://github.com/cancyber/cancyber_zeek"
+```
+
+
