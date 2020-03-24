@@ -90,7 +90,7 @@ interface=en0
 
 2. Install zpk (Zeek package manager):
 
-Requirements: (Python 3)[https://realpython.com/installing-python/] and (pip)[https://bootstrap.pypa.io/get-pip.py].
+Requirements: [Python 3](https://realpython.com/installing-python/) and [pip](https://bootstrap.pypa.io/get-pip.py).
 
 `pip install zkg`
 
