@@ -104,7 +104,7 @@ Requirements: (Python 3)[https://realpython.com/installing-python/] and (pip)[ht
 
 4. Install cancyber_zeek package:
 
-  From an install bundle:
+  From a preconfigured (API key included) install bundle [download here](https://endpoint.cancyber.org/tool.php):
   
   - `zkg unbundle cancyber_zeek.bundle`
 
@@ -134,7 +134,7 @@ export {
 }
 ```
 
-To find your API key, go to the [tools download page](https://endpoint.cancyber.org/tool.php) and Scroll down to the **Key Revokation** section to grab a recent key. API keys are system-generated 64 digit alphanumeric sequence similar to a sha256.
+When installing from Github source you'll need an API key to add to `config.zeek`. To find your API key, go to the [tools download page](https://endpoint.cancyber.org/tool.php) and Scroll down to the **Key Revokation** section to grab a recent key. API keys are system-generated 64 digit alphanumeric sequence similar to a sha256.
 
 5. zeekctl deployment
 
