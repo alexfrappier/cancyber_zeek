@@ -1,4 +1,4 @@
-# CanCyber.org Zeek Module v2.1.01 2020 03 22
+# CanCyber.org Zeek Module v2.1.001 2020 03 22
 
 module cancyber_zeek;
 
@@ -16,7 +16,7 @@ redef Intel::item_expiration = 6.5hr;
 redef ignore_checksums = T;
 
 export {
-	global NST_VERSION = "2.1.01";
+	global NST_VERSION = "2.1.001";
 
 	global MAX_HITS: int = 100;
 	global MAX_DNS_HITS: int = 2;
