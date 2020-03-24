@@ -136,7 +136,63 @@ export {
 
 When installing from Github source you'll need an API key to add to `config.zeek`. To find your API key, go to the [tools download page](https://endpoint.cancyber.org/tool.php) and Scroll down to the **Key Revokation** section to grab a recent key. API keys are system-generated 64 digit alphanumeric sequence similar to a sha256.
 
-5. zeekctl deployment
+5. Test run Zeek with the cancyber_zeek module from the command line:
+
+`zeek -i en0 cancyber_zeek`
+
+Typical errors here would be missing *config.zeek* or network errors in enterprise environments connecting to tool.cancyber.org.
+
+
+```
+listening on en0
+
+Refresh period is now 6.0 hrs
+Downloading CanCyber Signatures 2020/03/24 12:02:03
+Cancyber Source Directory: /usr/local/Cellar/zeek/3.1.1/share/zeek/site/cancyber_zeek/./scripts/.
+Downloading Indicators...
+Processing Indicators...
+Number of Indicators 426893
+ Intel Indicator Counts:
+    Intel::DOMAIN:    36275
+    Intel::ADDR:        4464
+    Intel::URL:        250793
+    Intel::SUBNET:    0
+    Intel::SOFTWARE:  10
+    Intel::EMAIL:     826
+    Intel::USER_NAME: 0
+    Intel::FILE_HASH: 127887
+    Intel::FILE_NAME: 6637
+Finished Processing Indicators
+```
+
+Control-C to exit.
+```
+1585065905.746575 received termination signal
+1585065905.746575 109231 packets received on interface en0, 8406 (7.15%) dropped
+Zeek Terminating - Cancelling Scheduled Signature Downloads
+```
+
+6. [Test indicators](https://cancyber.org/testing.php)
+
+`nslookup malware-c2.com`
+
+```
+Server:		8.8.8.8
+Address:	8.8.8.8#53
+
+Non-authoritative answer:
+Name:	malware-c2.com
+Address: 35.183.9.38
+```
+
+Zeek will print a sighting and send it to CanCyber:
+
+```
+CanCyber Sighting: ZEEK|uid:C4eMxUSgTo4FzJsg4|ts:1585053181.470496|orig_h:192.168.1.90|orig_p:63181/udp|resp_h:8.8.8.8|resp_p:53/udp|msg: Intel hit on malware-c2.com at DNS::IN_REQUEST|node:zeek|d:OUTBOUND|service:DNS|orig:32|o_pkts:0|o_bytes:0|o_state:1|resp:0|r_pkts:0|r_bytes:0|r_state:0|start_time:1585053181.470496|duration:0.0|q:A
+Sighting Result ===> {"result":"Hit Recorded!"}
+```
+
+7. zeekctl deployment for always on monitoring
 
   - `zeekctl deploy` (typical errors here would be missing *config.zeek*).
   
@@ -160,28 +216,8 @@ starting zeek ...
   
   Zeekctl will install the module and start it. See the cron section below to add the maintenance commands.
 
-6. [Test indicators](https://cancyber.org/testing.php)
 
-`nslookup malware-c2.com`
-
-```
-Server:		8.8.8.8
-Address:	8.8.8.8#53
-
-Non-authoritative answer:
-Name:	malware-c2.com
-Address: 35.183.9.38
-```
-
-
-```
-CanCyber Sighting: ZEEK|uid:C4eMxUSgTo4FzJsg4|ts:1585053181.470496|orig_h:192.168.1.90|orig_p:63181/udp|resp_h:8.8.8.8|resp_p:53/udp|msg: Intel hit on malware-c2.com at DNS::IN_REQUEST|node:zeek|d:OUTBOUND|service:DNS|orig:32|o_pkts:0|o_bytes:0|o_state:1|resp:0|r_pkts:0|r_bytes:0|r_state:0|start_time:1585053181.470496|duration:0.0|q:A
-Sighting Result ===> {"result":"Hit Recorded!"}
-```
-
-
-
-7. Review [CanCyber Dashboard](https://dashboard.cancyber.org/)
+8. Review [CanCyber Dashboard](https://dashboard.cancyber.org/)
 
 
 ## Command line alternative:
@@ -223,8 +259,10 @@ Use zeekctl to launch zeek, rotate logs, and restart after crashes.
 ### zeekctl cron jobs
 
 ```
+# cron regular check
 */5 * * * * /usr/local/bin/zeekctl cron
 
+# restart to load new signatures twice daily
 1 */12 * * * /usr/local/bin/zeekctl restart
 ```
 
