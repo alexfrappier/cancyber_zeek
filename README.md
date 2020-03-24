@@ -128,6 +128,8 @@ export {
 }
 ```
 
+To find your API key, go to the [tools download page](https://endpoint.cancyber.org/tool.php) and Scroll down to the **Key Revokation** section to grab a recent key. API keys are system-generated 64 digit alphanumeric sequence similar to a sha256.
+
 5. zeekctl deployment
 
   - `zeekctl deploy` (typical errors here would be missing *config.zeek*).
