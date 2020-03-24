@@ -203,9 +203,11 @@ Use zeekctl to launch zeek, rotate logs, and restart after crashes.
 
 ### zeekctl cron jobs
 
+```
 */5 * * * * /usr/local/bin/zeekctl cron
 
 1 */12 * * * /usr/local/bin/zeekctl restart
+```
 
 ## Updates
 
