@@ -104,6 +104,8 @@ Requirements: (Python 3)[https://realpython.com/installing-python/] and (pip)[ht
 
 4. Install cancyber_zeek package:
 
+  From an install bundle:
+  
   - `zkg unbundle cancyber_zeek.bundle`
 
 ```
@@ -117,6 +119,8 @@ Unbundling complete.
 
   **Or:**
 
+  From Github source:
+  
   - `zkg install https://github.com/cancyber/cancyber_zeek` (then edit the *packages/cancyber_zeek/config.zeek* to have your cancyber tool api key [not misp key]). Copy a new config `cp config.zeek.orig config.zeek`.
   
 ```
