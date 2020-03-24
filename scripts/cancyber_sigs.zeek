@@ -2,7 +2,6 @@
 
 module cancyber_zeek;
 
-
 @load ../config
 @load ./cancyber_expire
 
@@ -22,7 +21,6 @@ export {
 	global MAX_HITS: int = 100;
 	global MAX_DNS_HITS: int = 2;
 	global MAX_SCAN_HITS: int = 2;
-
 
 	global base_signature_url = fmt("https://tool.cancyber.org/get/indicators?toolkey=%s&zeekversion=%s&version=%s&query=", cancyber_zeek::APIKEY, Version::number, NST_VERSION);
 
