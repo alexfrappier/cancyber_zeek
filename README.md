@@ -106,13 +106,14 @@ Requirements: (Python 3)[https://realpython.com/installing-python/] and (pip)[ht
 
   - `zkg unbundle cancyber_zeek.bundle` or:
 
-```The following packages will be INSTALLED:
+```
+The following packages will be INSTALLED:
 https://github.com/cancyber/cancyber_zeek (master)
 
 Proceed? [Y/n] `Y`
 Loaded "https://github.com/cancyber/cancyber_zeek"
-Unbundling complete.```
-
+Unbundling complete. 
+```
 
   - `zkg install https://github.com/cancyber/cancyber_zeek` (then edit the *packages/cancyber_zeek/config.zeek* to have your cancyber tool api key [not misp key]).
 
@@ -120,7 +121,8 @@ Unbundling complete.```
 
   - `zeekctl deploy` (typical errors here would be missing *config.zeek*).
   
-```checking configurations ...
+```
+checking configurations ...
 installing ...
 removing old policies in /usr/local/var/spool/installed-scripts-do-not-touch/site ...
 removing old policies in /usr/local/var/spool/installed-scripts-do-not-touch/auto ...
@@ -133,7 +135,8 @@ generating zeekctl-config.sh ...
 stopping ...
 stopping zeek ...
 starting ...
-starting zeek ...```
+starting zeek ...
+```
 
   
   Zeekctl will install the module and start it. See the cron section below to add the maintenance commands.
@@ -142,16 +145,20 @@ starting zeek ...```
 
 `nslookup malware-c2.com`
 
-```Server:		8.8.8.8
+```
+Server:		8.8.8.8
 Address:	8.8.8.8#53
 
 Non-authoritative answer:
 Name:	malware-c2.com
-Address: 35.183.9.38```
+Address: 35.183.9.38
+```
 
 
-```CanCyber Sighting: ZEEK|uid:C4eMxUSgTo4FzJsg4|ts:1585053181.470496|orig_h:192.168.1.90|orig_p:63181/udp|resp_h:8.8.8.8|resp_p:53/udp|msg: Intel hit on malware-c2.com at DNS::IN_REQUEST|node:zeek|d:OUTBOUND|service:DNS|orig:32|o_pkts:0|o_bytes:0|o_state:1|resp:0|r_pkts:0|r_bytes:0|r_state:0|start_time:1585053181.470496|duration:0.0|q:A
-Sighting Result ===> {"result":"Hit Recorded!"}```
+```
+CanCyber Sighting: ZEEK|uid:C4eMxUSgTo4FzJsg4|ts:1585053181.470496|orig_h:192.168.1.90|orig_p:63181/udp|resp_h:8.8.8.8|resp_p:53/udp|msg: Intel hit on malware-c2.com at DNS::IN_REQUEST|node:zeek|d:OUTBOUND|service:DNS|orig:32|o_pkts:0|o_bytes:0|o_state:1|resp:0|r_pkts:0|r_bytes:0|r_state:0|start_time:1585053181.470496|duration:0.0|q:A
+Sighting Result ===> {"result":"Hit Recorded!"}
+```
 
 
 
@@ -164,7 +171,8 @@ If running zeek directly on the command line, reference the CanCyber folder with
 
 `sudo zeek -C -i en0 cancyber_zeek`
 
-```listening on en0
+```
+listening on en0
 
 Refresh period is now 6.0 hrs
 Downloading CanCyber Signatures 2020/03/24 08:28:53
@@ -184,7 +192,8 @@ Number of Indicators 426067
     Intel::USER_NAME: 0
     Intel::FILE_HASH: 127422
     Intel::FILE_NAME: 6637
-Finished Processing Indicators```
+Finished Processing Indicators
+```
 
 
 ## Zeekctl Maintenance
@@ -204,9 +213,11 @@ To upgrade to the latest version of the CanCyber Zeek module using zkg, execute:
 
 `zkg upgrade`
 
-```The following packages will be UPGRADED:
+```
+The following packages will be UPGRADED:
   https://github.com/cancyber/cancyber_zeek (master)
 
 Proceed? [Y/n] `Y`
-Upgraded "https://github.com/cancyber/cancyber_zeek" (master)```
+Upgraded "https://github.com/cancyber/cancyber_zeek" (master)
+```
 
