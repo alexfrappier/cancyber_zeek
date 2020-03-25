@@ -32,7 +32,9 @@ This module is based on the open source dovehawk.io module, but is enhanced to i
 
 ## Extra Documentation
 
-CanCyber general [Documents Repo](https://github.com/cancyber/documents])
+This readme covers simple Zeek setup, if your traffic volume requires a Zeek Cluster (250Mb/s per CPU core) you may need additional instructions.
+
+CanCyber general and Zeek appliance guide [Documents Repo](https://github.com/cancyber/documents])
 
 ## Slack Channel
 
@@ -43,7 +45,7 @@ CanCyber general [Documents Repo](https://github.com/cancyber/documents])
 
 ## Monitoring and Intelligence Context
 
-The CanCyber Zeek module outputs hits to the console, logs to file, and reports hit metadata and up to 2000 bytes of a signature-hit detected session to the CanCyber dashboard.  The [CanCyber Dashboard](https://dashboard.cancyber.org/) is the best place to review hits and get context on the activity and get actor attribution.  Additionally, analysts are available in the [Slack group](https://cancyber.slack.com) to help interpret hits.
+The CanCyber Zeek module outputs hits to the console, logs to file, and reports hit metadata and the begining of a signature-hit detected session to the CanCyber dashboard.  The [CanCyber Dashboard](https://dashboard.cancyber.org/) is the best place to review hits and get context on the activity and actor attribution.  Additionally, analysts are available in the [Slack group](https://cancyber.slack.com) to help interpret hits.
 
 
 ## Web Dashboard
@@ -57,7 +59,7 @@ The CanCyber Zeek module outputs hits to the console, logs to file, and reports 
 
 `scripts/cancyber_expire.zeek`: Extended functionality for the built in Intelligence Framework.
 
-`signatures/cancyber_sigs.sig`: Content based signatures.
+`signatures/cancyber_sigs.sig`: Content based signatures. The module self-updates this file but a zeek restart is required to load it.
 
 `__ load __.zeek`: Module designator.
 
@@ -85,7 +87,7 @@ The CanCyber Zeek module outputs hits to the console, logs to file, and reports 
 
   - Centos: `yum install zeek`
 
-  **Configure zeek** interface setting: */usr/local/etc/node.cfg*
+  **Configure zeek** interface setting for your system: */usr/local/etc/node.cfg*
 
 ```
 [zeek]
@@ -93,6 +95,8 @@ type=standalone
 host=localhost
 interface=en0
 ```
+
+  Tip: Run `ifconfig` to find the interface that currently has an IP address on your network.
 
 2. **Install zpk** (Zeek package manager):
 
@@ -107,10 +111,12 @@ Requirements: [Python 3](https://realpython.com/installing-python/) and [pip](ht
   - Edit *site/local.zeek* (example location */usr/local/Cellar/zeek/3.1.1/share/zeek/site/local.zeek*)
 
     `@load packages`
+    
+    Tip: `nano /usr/local/Cellar/zeek/3.1.1/share/zeek/site/local.zeek` is a common and easy editor to edit a text file. _Control-x_, then _y_, to exit and save.
 
-4. Install cancyber_zeek.bundle package:
+4. Get and Install cancyber_zeek.bundle package:
 
-  From a preconfigured (API key included) install cancyber_zeek.bundle [download here](https://endpoint.cancyber.org/tool.php):
+  From a preconfigured (API key included) install cancyber_zeek.bundle [download here](https://endpoint.cancyber.org/tool.php) - Zeek Network Module - Zeek 3+ Linux/Mac:
   
   - `zkg unbundle cancyber_zeek.bundle`
 
@@ -125,9 +131,11 @@ Unbundling complete.
 
 The cancyber_zeek.bundle is tar.gz compressed file pre-loaded with your API key and the most recent CanCyber content signatures. The bundle includes a manifest that tells zkg that future updates are available from github.com/cancyber/canyber_zeek
 
-  **Or:**
+Go to step 5.
 
-  From Github source:
+  **Or for more advanced users that know their CanCyber API key**
+
+  Alternate (more complicated) installation from Github source:
   
   - `zkg install https://github.com/cancyber/cancyber_zeek` (then edit the *packages/cancyber_zeek/config.zeek* to have your cancyber tool api key [not misp key]). Copy a new config `cp config.zeek.orig config.zeek`.
   
@@ -236,6 +244,8 @@ Use zeekctl to launch zeek, rotate logs, and restart after crashes.
 
 
 ### zeekctl cron jobs
+
+Add to or create a new cron:
 
 ```
 # cron regular check
