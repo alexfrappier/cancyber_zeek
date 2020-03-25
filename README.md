@@ -4,15 +4,21 @@ For [CanCyber.org](https://cancyber,org) members. The **CanCyber Foundation** pr
 
 ## Access
 
-An API key in config.zeek is required to use this module with CanCyber.org. Use [dovehawk.io](https://dovehawk.io) to connect to your own MISP instance. When you [download a package](https://endpoint.cancyber.org/tool.php) from CanCyber.org the api key should be automatically included. If you are downloading source from GitHub, add your API key to config.key.
+An API key in config.zeek is required to use this module with CanCyber.org. When you [download a package](https://endpoint.cancyber.org/tool.php) from CanCyber.org the api key should be automatically included. If you are downloading source from GitHub, add your API key to config.key.
+
+## Not a CanCyber Member?
+
+Request an account by getting a referral from another member or reach out for more information. You can also use [dovehawk.io](https://dovehawk.io) to connect to your own MISP instance and hunt with your own indicators in Zeek.
 
 ## Summary
 
-This module uses the the built-in Zeek Intelligence Framework to load and monitor signatures from MISP enriched with commercial indicators and manually curated Zeek content based signatures (Zeek Signature Framework).  The module also includes a customized version of Jan Grashoefer's expiration code.
+This module uses the the built-in Zeek Intelligence Framework to load and monitor signatures from MISP enriched with commercial indicators and manually curated Zeek content based signatures (Zeek Signature Framework).
 
 The script, signatures, and indicators are downloaded automatically every 6 hours.  Indicators should expire after 6.5 hours if removed from MISP.
 
 Indicators are downloaded and read into memory automatically.  Content signatures are stored locally in `signatures/cancyber_sigs.sig` and will require a zeek restart `zeekctl restart` to take effect.
+
+This module is based on the open source dovehawk.io module, but is enhanced to include indicators from not only the CanCyber MISP, but also over 400k+ commercial indicators. In addition this module reports sightings to a web dashboard rather than just to MISP.
 
 
 ## Requirements
@@ -49,7 +55,7 @@ The CanCyber Zeek module outputs hits to the console, logs to file, and reports 
 
 `scripts/cancyber_sigs.zeek`: Module zeek-script source.
 
-`scripts/cancyber_expire.zeek`: Expiration code, derived from Jan Grashoefer
+`scripts/cancyber_expire.zeek`: Extended functionality for the built in Intelligence Framework.
 
 `signatures/cancyber_sigs.sig`: Content based signatures.
 
@@ -71,7 +77,7 @@ The CanCyber Zeek module outputs hits to the console, logs to file, and reports 
 
 ## Package Install
 
-1. Install Zeek
+1. **Install Zeek**
 
   - Mac: `brew install zeek`
 
@@ -79,7 +85,7 @@ The CanCyber Zeek module outputs hits to the console, logs to file, and reports 
 
   - Centos: `yum install zeek`
 
-  Configure zeek interface setting: */usr/local/etc/node.cfg*
+  **Configure zeek** interface setting: */usr/local/etc/node.cfg*
 
 ```
 [zeek]
@@ -88,13 +94,13 @@ host=localhost
 interface=en0
 ```
 
-2. Install zpk (Zeek package manager):
+2. **Install zpk** (Zeek package manager):
 
 Requirements: [Python 3](https://realpython.com/installing-python/) and [pip](https://bootstrap.pypa.io/get-pip.py).
 
 `pip install zkg`
 
-3. Setup zkg:
+3. **Setup zkg**:
 
   - `zkg autoconfig`
 
@@ -117,7 +123,7 @@ Loaded "https://github.com/cancyber/cancyber_zeek"
 Unbundling complete. 
 ```
 
-The cancyber_zeek.bundle is tar.gz compressed file pre-loaded with your API key and the most recent CanCyber content signatures.
+The cancyber_zeek.bundle is tar.gz compressed file pre-loaded with your API key and the most recent CanCyber content signatures. The bundle includes a manifest that tells zkg that future updates are available from github.com/cancyber/canyber_zeek
 
   **Or:**
 
@@ -138,7 +144,33 @@ export {
 
 When installing from Github source you'll need an API key to add to `config.zeek`. To find your API key, go to the [tools download page](https://endpoint.cancyber.org/tool.php) and Scroll down to the **Key Revokation** section to grab a recent key. API keys are system-generated 64 digit alphanumeric sequence similar to a sha256.
 
-5. Test run Zeek with the cancyber_zeek module from the command line:
+
+5. zeekctl deployment for always on monitoring
+
+  - `zeekctl deploy` (typical errors here would be missing *config.zeek*).
+  
+```
+checking configurations ...
+installing ...
+removing old policies in /usr/local/var/spool/installed-scripts-do-not-touch/site ...
+removing old policies in /usr/local/var/spool/installed-scripts-do-not-touch/auto ...
+creating policy directories ...
+installing site policies ...
+generating standalone-layout.zeek ...
+generating local-networks.zeek ...
+generating zeekctl-config.zeek ...
+generating zeekctl-config.sh ...
+stopping ...
+stopping zeek ...
+starting ...
+starting zeek ...
+```
+
+  
+  Zeekctl will install the module and start it. See the cron section below to add the maintenance commands.
+
+
+6. Test run Zeek with the cancyber_zeek module from the command line:
 
 `zeek -i en0 cancyber_zeek`
 
@@ -174,7 +206,7 @@ Control-C to exit.
 Zeek Terminating - Cancelling Scheduled Signature Downloads
 ```
 
-6. [Test indicators](https://cancyber.org/testing.php)
+7. Use the [Test indicators](https://cancyber.org/testing.php) to generate some sightings. These indicators and files are safe to use and download.
 
 `nslookup malware-c2.com`
 
@@ -194,63 +226,8 @@ CanCyber Sighting: ZEEK|uid:C4eMxUSgTo4FzJsg4|ts:1585053181.470496|orig_h:192.16
 Sighting Result ===> {"result":"Hit Recorded!"}
 ```
 
-7. zeekctl deployment for always on monitoring
+8. Review test sightings online with the [CanCyber Dashboard](https://dashboard.cancyber.org/)
 
-  - `zeekctl deploy` (typical errors here would be missing *config.zeek*).
-  
-```
-checking configurations ...
-installing ...
-removing old policies in /usr/local/var/spool/installed-scripts-do-not-touch/site ...
-removing old policies in /usr/local/var/spool/installed-scripts-do-not-touch/auto ...
-creating policy directories ...
-installing site policies ...
-generating standalone-layout.zeek ...
-generating local-networks.zeek ...
-generating zeekctl-config.zeek ...
-generating zeekctl-config.sh ...
-stopping ...
-stopping zeek ...
-starting ...
-starting zeek ...
-```
-
-  
-  Zeekctl will install the module and start it. See the cron section below to add the maintenance commands.
-
-
-8. Review [CanCyber Dashboard](https://dashboard.cancyber.org/)
-
-
-## Command line alternative:
-
-If running zeek directly on the command line, reference the CanCyber folder with the module:
-
-`sudo zeek -C -i en0 cancyber_zeek`
-
-```
-listening on en0
-
-Refresh period is now 6.0 hrs
-Downloading CanCyber Signatures 2020/03/24 08:28:53
-Cancyber Source Directory: ./cancyber_zeek/./scripts/.
-Downloading Indicators...
-Updating File ../signatures/cancyber_sigs.sig
-Finished Updating File: ../signatures/cancyber_sigs.sig
-Processing Indicators...
-Number of Indicators 426067
- Intel Indicator Counts:
-    Intel::DOMAIN:    36232
-    Intel::ADDR:        4157
-    Intel::URL:        250790
-    Intel::SUBNET:    0
-    Intel::SOFTWARE:  9
-    Intel::EMAIL:     819
-    Intel::USER_NAME: 0
-    Intel::FILE_HASH: 127422
-    Intel::FILE_NAME: 6637
-Finished Processing Indicators
-```
 
 
 ## Zeekctl Maintenance
@@ -270,7 +247,7 @@ Use zeekctl to launch zeek, rotate logs, and restart after crashes.
 
 ## Updates
 
-To upgrade to the latest version of the CanCyber Zeek module using zkg, execute:
+To upgrade all installed modules to the latest version, including the CanCyber Zeek module, use zkg:
 
 `zkg upgrade`
 
