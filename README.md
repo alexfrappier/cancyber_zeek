@@ -38,6 +38,8 @@ This readme covers simple Zeek setup, if your traffic volume requires a Zeek Clu
 
 CanCyber general and Zeek appliance guide [Documents Repo](https://github.com/cancyber/documents])
 
+Security Zen has a good series on installing a Zeek Cluster on Centos [part 1 - zeek](https://www.ericooi.com/zeekurity-zenpart-i-how-to-install-zeek-on-centos-8/) and [part 2 - zkg](https://www.ericooi.com/zeekurity-zen-part-ii-zeek-package-manager/).
+
 ## Slack Channel
 
 [CanCyber Slack](https://cancyber.slack.com)
