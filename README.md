@@ -79,6 +79,8 @@ The CanCyber Zeek module outputs hits to the console, logs to file, and reports 
 
 ## Package Install
 
+Tip: You may need to be root to install and run Zeek. Prepend `sudo` to any command to run as root.
+
 1. **Install Zeek**
 
   - Mac: `brew install zeek`
