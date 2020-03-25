@@ -87,6 +87,8 @@ Tip: You may need to be root to install and run Zeek. Prepend `sudo` to any comm
 
 1. **Install Zeek**
 
+See [Get Zeek](https://zeek.org/get-zeek/) for detailed instructions.
+
   - Mac: `brew install zeek`
 
   - Ubuntu: `sudo apt-get install zeek`
