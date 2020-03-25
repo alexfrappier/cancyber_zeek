@@ -137,27 +137,6 @@ Unbundling complete.
 
 The cancyber_zeek.bundle is tar.gz compressed file pre-loaded with your API key and the most recent CanCyber content signatures. The bundle includes a manifest that tells zkg that future updates are available from github.com/cancyber/canyber_zeek
 
-Go to step 5.
-
-  **Or for more advanced users that know their CanCyber API key**
-
-  Alternate (more complicated) installation from Github source:
-  
-  - `zkg install https://github.com/cancyber/cancyber_zeek` (then edit the *packages/cancyber_zeek/config.zeek* to have your cancyber tool api key [not misp key]). Copy a new config `cp config.zeek.orig config.zeek`.
-  
-```
-module cancyber_zeek;
-
-export { 
-
-	global APIKEY = "**##APIKEY##**";
-
-	global CCSOURCE = "zeek"; # available options zeek, isp, dev, exp
-}
-```
-
-When installing from Github source you'll need an API key to add to `config.zeek`. To find your API key, go to the [tools download page](https://endpoint.cancyber.org/tool.php) and Scroll down to the **Key Revokation** section to grab a recent key. API keys are system-generated 64 digit alphanumeric sequence similar to a sha256.
-
 
 5. zeekctl deployment for always on monitoring
 
@@ -293,4 +272,23 @@ Proceed? [Y/n] **Y**
 Removed "https://github.com/cancyber/cancyber_zeek"
 ```
 
+
+## Alternate package installation directly from Github
+
+Alternate (more complicated) installation from Github source that requires that you know your CanCyber API key.
+  
+  - `zkg install https://github.com/cancyber/cancyber_zeek` (then edit the *packages/cancyber_zeek/config.zeek* to have your cancyber tool api key [not misp key]). Copy a new config `cp config.zeek.orig config.zeek`.
+  
+```
+module cancyber_zeek;
+
+export { 
+
+	global APIKEY = "**##APIKEY##**";
+
+	global CCSOURCE = "zeek"; # available options zeek, isp, dev, exp
+}
+```
+
+When installing from Github source you'll need an API key to add to `config.zeek`. To find your API key, go to the [tools download page](https://endpoint.cancyber.org/tool.php) and Scroll down to the **Key Revokation** section to grab a recent key. API keys are system-generated 64 digit alphanumeric sequence similar to a sha256.
 
