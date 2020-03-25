@@ -25,6 +25,8 @@ This module is based on the open source dovehawk.io module, but is enhanced to i
 
 **Zeek** 3.0 or higher.
 
+**Python** 3 recommended
+
 **zkg** *zeek package manager*.
 
 **curl** is required for ActiveHTTP requests.
@@ -85,9 +87,9 @@ Tip: You may need to be root to install and run Zeek. Prepend `sudo` to any comm
 
   - Mac: `brew install zeek`
 
-  - Ubuntu: `apt-get install zeek`
+  - Ubuntu: `sudo apt-get install zeek`
 
-  - Centos: `yum install zeek`
+  - Centos: `sudo yum install zeek`
 
   **Configure zeek** interface setting for your system: */usr/local/etc/node.cfg*
 
@@ -104,7 +106,7 @@ interface=en0
 
 Requirements: [Python 3](https://realpython.com/installing-python/) and [pip](https://bootstrap.pypa.io/get-pip.py).
 
-`pip install zkg`
+`sudo pip install zkg requests`
 
 3. **Setup zkg**:
 
@@ -114,7 +116,7 @@ Requirements: [Python 3](https://realpython.com/installing-python/) and [pip](ht
 
     `@load packages`
     
-    Tip: `nano /usr/local/Cellar/zeek/3.1.1/share/zeek/site/local.zeek` is a common and easy editor to edit a text file. _Control-x_, then _y_, to exit and save.
+    Tip: `sudo nano /usr/local/Cellar/zeek/3.1.1/share/zeek/site/local.zeek` is a common and easy editor to edit a text file. _Control-x_, then _y_, to exit and save.
 
 4. Get and Install cancyber_zeek.bundle package:
 
