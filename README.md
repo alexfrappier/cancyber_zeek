@@ -40,6 +40,11 @@ CanCyber general and Zeek appliance guide [Documents Repo](https://github.com/ca
 
 Security Zen has a good series on installing a Zeek Cluster on Centos [part 1 - zeek](https://www.ericooi.com/zeekurity-zenpart-i-how-to-install-zeek-on-centos-8/) and [part 2 - zkg](https://www.ericooi.com/zeekurity-zen-part-ii-zeek-package-manager/).
 
+## Video Walkthrough
+
+[![CanCyber Zeek Install](http://img.youtube.com/vi/pbJqk049arI/0.jpg)](http://www.youtube.com/watch?v=pbJqk049arI)
+
+
 ## Slack Channel
 
 [CanCyber Slack](https://cancyber.slack.com)
@@ -95,7 +100,7 @@ See [Get Zeek](https://zeek.org/get-zeek/) for detailed instructions.
 
   - Centos: `sudo yum install zeek`
 
-  **Configure zeek** interface setting for your system: */usr/local/etc/node.cfg*
+  **Configure zeek** interface setting for your system: `sudo nano /usr/local/etc/node.cfg`
 
 ```
 [zeek]
@@ -114,7 +119,7 @@ Requirements: [Python 3](https://realpython.com/installing-python/) and [pip](ht
 
 3. **Setup zkg**:
 
-  - `zkg autoconfig`
+  - `sudo zkg autoconfig`
 
   - Edit *site/local.zeek* (example location */usr/local/Cellar/zeek/3.1.1/share/zeek/site/local.zeek*)
 
@@ -126,7 +131,7 @@ Requirements: [Python 3](https://realpython.com/installing-python/) and [pip](ht
 
   From a preconfigured (API key included) install cancyber_zeek.bundle [download here](https://endpoint.cancyber.org/tool.php) - Zeek Network Module - Zeek 3+ Linux/Mac:
   
-  - `zkg unbundle cancyber_zeek.bundle`
+  - `sudo zkg unbundle cancyber_zeek.bundle`
 
 ```
 The following packages will be INSTALLED:
@@ -142,7 +147,7 @@ The cancyber_zeek.bundle is tar.gz compressed file pre-loaded with your API key 
 
 5. zeekctl deployment for always on monitoring
 
-  - `zeekctl deploy` (typical errors here would be missing *config.zeek*).
+  - `sudo zeekctl deploy` (typical errors here would be missing *config.zeek*).
   
 ```
 checking configurations ...
@@ -167,7 +172,7 @@ starting zeek ...
 
 6. Test run Zeek with the cancyber_zeek module from the command line:
 
-`zeek -i en0 cancyber_zeek`
+`sudo zeek -i en0 cancyber_zeek`
 
 Typical errors here would be missing *config.zeek* or network errors in enterprise environments connecting to tool.cancyber.org.
 
@@ -232,7 +237,7 @@ Use zeekctl to launch zeek, rotate logs, and restart after crashes.
 
 ### zeekctl cron jobs
 
-Add to or create a new cron:
+Add to or create a new cron (as root):
 
 ```
 # cron regular check
@@ -240,13 +245,16 @@ Add to or create a new cron:
 
 # restart to load new signatures twice daily
 1 */12 * * * /usr/local/bin/zeekctl restart
+
+# zkg update cancyber_zeek module
+1 2 * 1 * /usr/local/bin/zkg upgrade --force cancyber_zeek
 ```
 
 ## Updates
 
 To upgrade all installed modules to the latest version, including the CanCyber Zeek module, use zkg:
 
-`zkg upgrade`
+`sudo zkg upgrade cancyber_zeekk`
 
 ```
 The following packages will be UPGRADED:
