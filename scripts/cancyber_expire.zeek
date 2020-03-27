@@ -50,7 +50,7 @@ hook Intel::extend_match(info: Info, s: Seen, items: set[Item])
 			print fmt("Removing Expired Intel Item That Hit: %s",item$indicator);
 			flush_all();
 			
-			remove(item, T);
+			Intel::remove(item, T);
 		}
 
 		if (Site::is_local_addr(conn$id$orig_h) || Site::is_private_addr(conn$id$orig_h) ) {
@@ -74,7 +74,7 @@ hook Intel::extend_match(info: Info, s: Seen, items: set[Item])
 			}
 
 			item$meta$cancyber_hits += 1;
-			insert(item);
+			Intel::insert(item);
 			#print fmt("hits for item all:%d dns:%d scan:%d services:%d", item$meta$cancyber_hits, item$meta$cancyber_dns_hits, item$meta$cancyber_scan_hits, services);
 
 			if (item$meta$cancyber_hits > cancyber_zeek::MAX_HITS) {
