@@ -29,7 +29,7 @@ export {
 
 @load ./cancyber_sigs
 
-hook extend_match(info: Info, s: Seen, items: set[Item])
+hook Intel::extend_match(info: Info, s: Seen, items: set[Item])
 {
 	local matches = |items|;
 	for ( item in items )
