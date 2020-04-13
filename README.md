@@ -1,6 +1,6 @@
 # CanCyber Zeek Module
 
-For [CanCyber.org](https://cancyber,org) members. The **CanCyber Foundation** provides free threat hunting capabilities to Canadian industry and their suppliers. With funding provided by the Government Canada and *Canadian Safety and Security Program* [(CSSP)](http://www.science.gc.ca/eic/site/063.nsf/eng/h_5B5BE154.html).
+For [CanCyber.org](https://cancyber.org) members. The **CanCyber Foundation** provides free threat hunting capabilities to Canadian industry and their suppliers. With funding provided by the Government Canada and *Canadian Safety and Security Program* [(CSSP)](http://www.science.gc.ca/eic/site/063.nsf/eng/h_5B5BE154.html).
 
 ## Access
 
